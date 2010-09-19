@@ -72,13 +72,21 @@ autocmd! BufNewFile,BufRead * nnoremap <buffer> <silent> L :set hlsearch!<Enter>
 "au FileType perl call PerlType()
 filetype plugin indent on
 autocmd! BufRead,BufNewFile *.inc set filetype=php
-autocmd! BufRead,BufNewFile *.cgi set filetype=perl
+"autocmd! BufRead,BufNewFile *.cgi set filetype=perl
 autocmd! BufRead,BufNewFile *.pl set filetype=perl
 autocmd! BufRead,BufNewFile *.pass setlocal nobackup
 autocmd! BufNewFile,BufRead *.as set filetype=actionscript
 autocmd! BufNewFile,BufRead *.mxml set filetype=mxml
-autocmd! BufNewFile,BufRead *.ctp set filetype=php
+"autocmd! BufNewFile,BufRead *.ctp set filetype=php
 autocmd FileType php :set dictionary=~/.vim/dict/php.dict
+
+" template settings
+autocmd BufNewFile *.py 0r $HOME/.vim/template/template.py
+autocmd BufNewFile *.pl 0r $HOME/.vim/template/template.pl
+autocmd BufNewFile *.c 0r $HOME/.vim/template/template.c
+autocmd BufNewFile *.html 0r $HOME/.vim/template/template.html
+autocmd BufNewFile *.rb 0r $HOME/.vim/template/template.rb
+autocmd BufNewFile *.php 0r $HOME/.vim/template/template.php
 
 " ----------------------------
 "  plugins
