@@ -11,12 +11,14 @@ highlight Comment ctermfg=Cyan
 " for ZENKAKU Space
 highlight ZenkakuSpace cterm=underline ctermbg=white guibg=white
 match ZenkakuSpace /　/
+colorscheme desert
 
 " ----------------------------
 "  Japanese Language
 " ----------------------------
 "set encoding=japan
 set fileencodings=utf-8,iso-2022-jp,cp932,euc-jp
+"set fileencodings=cp932,utf-8,iso-2022-jp,euc-jp
 " for utf-8
 set termencoding=utf-8
 " for euc-jp
@@ -33,8 +35,8 @@ set incsearch
 " ----------------------------
 "  misc settings
 " ----------------------------
-set ts=4 sw=4
-set softtabstop=4
+set ts=2 sw=2
+set softtabstop=2
 set expandtab
 set nu
 set title
@@ -77,6 +79,11 @@ autocmd! BufRead,BufNewFile *.pl set filetype=perl
 autocmd! BufRead,BufNewFile *.pass setlocal nobackup
 autocmd! BufNewFile,BufRead *.as set filetype=actionscript
 autocmd! BufNewFile,BufRead *.mxml set filetype=mxml
+autocmd! BufNewFile,BufRead *.rb set filetype=ruby
+autocmd! BufNewFile,BufRead Gemfile set filetype=ruby
+autocmd! BufNewFile,BufRead Guardfile set filetype=ruby
+autocmd! BufNewFile,BufRead *.js set filetype=javascript
+"autocmd! BufNewFile,BufRead *.scss set filetype=css
 "autocmd! BufNewFile,BufRead *.ctp set filetype=php
 autocmd FileType php :set dictionary=~/.vim/dict/php.dict
 
@@ -96,7 +103,7 @@ autocmd BufNewFile *.php 0r $HOME/.vim/template/template.php
 let g:BufferListWidth = 25
 let g:BufferListMaxWidth = 50
 hi BufferSelected term=reverse ctermfg=white ctermbg=red cterm=bold
-hi BufferNormal term=NONE ctermfg=black cterm=NONE 
+hi BufferNormal term=NONE ctermfg=white cterm=NONE 
 
 set clipboard=unnamed
 
@@ -108,3 +115,65 @@ let g:proj_window_width=30
 " ----------------------------
 let php_folding = 1
 let php_htmlInSgrints = 1
+
+
+noremap <Leader>W :silent !open %<CR>
+
+
+
+
+"dein Scripts-----------------------------
+if &compatible
+  set nocompatible               " Be iMproved
+endif
+
+" Required:
+set runtimepath+=/Users/gakkie/.vim/bundle/repos/github.com/Shougo/dein.vim
+
+" プラグインがインストールされるディレクトリ
+let s:dein_dir = expand('/Users/gakkie/.vim/bundle')
+" dein本体
+let s:dein_repo_dir = s:dein_dir . '/repos/github.com/Shougo/dein.vim'
+
+" dein.vim がなければ github から落としてくる
+if &runtimepath !~# '/dein.vim'
+  if !isdirectory(s:dein_repo_dir)
+    execute '!git clone https://github.com/Shougo/dein.vim'
+    s:dein_repo_dir
+  endif
+  execute 'set runtimepath^=' . fnamemodify(s:dein_repo_dir, ':p')
+endif
+
+" deinの設定
+if dein#load_state(s:dein_dir)
+  call dein#begin(s:dein_dir)
+
+  " 設定ファイルを読み込む
+  let g:rc_dir    = expand('~/.vim/rc')
+  let s:toml      = g:rc_dir . '/dein.toml'
+
+  " TOML設定ファイルを読み込み、キャッシュしておく
+  call dein#load_toml(s:toml,      {'lazy': 0})
+
+  " Required:
+  call dein#end()
+  call dein#save_state()
+endif
+
+" If you want to install not installed plugins on startup.
+if dein#check_install()
+  call dein#install()
+endif
+
+"End dein Scripts-------------------------
+
+" Required:
+filetype plugin indent on
+syntax enable
+
+
+" indent-guidlineの設定
+let g:indent_guides_enable_on_vim_startup = 1
+
+" js/jsx
+let g:jsx_ext_required = 0

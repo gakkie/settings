@@ -1,0 +1,33 @@
+[[plugins]]
+repo = 'Shougo/dein.vim'
+
+[[plugins]] # toml syntax
+repo = 'cespare/vim-toml'
+on_ft = 'toml'
+
+[[plugins]]
+repo = 'Shougo/unite.vim'
+
+[[plugins]]
+repo = 'tpope/vim-obsession'
+
+[[plugins]] # 自動でendを入れてくれる(ruby)
+repo = 'tpope/vim-endwise'
+
+[[plugins]] # Ctrl+-でコメントアウト
+repo = 'tomtom/tcomment_vim'
+
+[[plugins]]
+repo = 'tpope/vim-surround'
+
+[[plugins]]
+repo = 'nathanaelkane/vim-indent-guides'
+
+[[plugins]]
+repo = 'itchyny/lightline.vim'
+
+#[[plugins]] # color scheme
+#repo = 'tomasr/molokai'
+
+[[plugins]] # javascript syntax
+repo = 'othree/yajs'
