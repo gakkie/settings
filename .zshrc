@@ -13,6 +13,7 @@ bindkey "^[[4~" end-of-line
 bindkey '^i' menu-expand-or-complete
 bindkey '^[^i' reverse-menu-complete
 bindkey '^[i' expand-or-complete
+bindkey "^[[Z" reverse-menu-complete # Shift-tabで補完を逆順に
 
 # history
 HISTFILE=$HOME/.zsh_history
@@ -39,11 +40,29 @@ local BLUE=$'%{\e[1;34m%}'
 local BLACK=$'%{\e[0;30m%}'
 #local DEFAULT=$'%{\e[1;m%}'
 
+# vcs_infoロード
+autoload -Uz vcs_info
+# PROMPT変数内で変数参照する
+setopt prompt_subst
+
+# vcsの表示
+zstyle ':vcs_info:*' formats '[%b]'
+zstyle ':vcs_info:*' actionformats '[%b|%a]'
+# プロンプト表示直前にvcs_info呼び出し
+#precmd() { vcs_info }
+precmd () {
+  psvar=()
+  LANG=en_US.UTF-8 vcs_info
+  [[ -n "$vcs_info_msg_0_" ]] && psvar[1]="$vcs_info_msg_0_"
+}
+
+
 # prompt
 	#PROMPT=$GREEN"${USER}@${HOSTNAME} $WHITE%(!.#.$) "$WHITE
 	#RPROMPT=$BLUE"[%~]"$WHITE
     #PROMPT=$'\n'$GREEN'${USER}@${HOSTNAME} '$LIGHT_BLUE'%~ '$'\n'$DEFAULT'%(!.#.$) '
-    PROMPT=$'\n'$GREEN'${USER}@${HOST} '$LIGHT_BLUE'%~ '$'\n'$WHITE'%(!.#.$) '
+    #PROMPT=$'\n'$GREEN'${USER}@${HOST} '$LIGHT_BLUE'%~ '$'\n'$WHITE'%(!.#.$) '
+    PROMPT=$'\n'$GREEN'${USER}@${HOST} '$YELLOW'${vcs_info_msg_0_} '$LIGHT_BLUE'%~ '$'\n'$WHITE'%(!.#.$) '
 	#PROMPT=$GREEN"${USER}@${HOSTNAME} $BLUE%(!.#.$) "$BLACK
 	#RPROMPT=$BLUE"[%~]"$BLACK
 
@@ -81,6 +100,11 @@ alias top='top -o CPU'
 autoload zmv
 alias zmv='noglob zmv'
 
+#alias for git
+alias gitb='git branch'
+alias gitco='git checkout'
+alias gitst='git status'
+
 setopt PROMPT_SUBST
 setopt share_history
 setopt autopushd
@@ -88,6 +112,7 @@ setopt autopushd
 export ZLS_COLORS=$LSCOLORS
 
 # completion
+fpath=(/usr/local/share/zsh-completions ~/.zsh/completion $fpath)
 autoload -U compinit
 compinit
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
@@ -100,8 +125,18 @@ zstyle ':completion:*' list-colors ${(s.:.)LSCOLORS}
 #export LANG='ja_JP.eucJP'
 export LANG='ja_JP.UTF-8'
 #export PATH=$PATH:$HOME/bin:/usr/local/flex/bin
-export PATH=$PATH:$HOME/bin:$HOME/bin/google_appengine:/opt/local/bin:
+export PATH=$PATH:$HOME/bin:$HOME/bin/google_appengine:/opt/local/bin:$HOME/.renv/bin
+export PATH="$HOME/Library/Haskell/bin:$PATH"
+export PATH="$HOME/.nodebrew/current/bin:$PATH"
+export PATH="$PATH:/Users/gakkie/Library/Android/sdk/platform-tools"
 export EDITOR=vim
 export WORDCHARS="*?_-.[]~=&;!#$%^(){}<>"
 export LSCOLORS=gxfxcxdxbxegedabagacad
+export CC=/usr/bin/gcc
+export FONTCONFIG_PATH=/opt/X11/lib/X11/fontconfig
 
+# ruby
+eval "$(rbenv init -)"
+
+### Added by the Heroku Toolbelt
+export PATH="/usr/local/heroku/bin:$PATH"
